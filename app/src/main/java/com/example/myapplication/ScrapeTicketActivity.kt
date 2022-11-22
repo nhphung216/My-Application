@@ -18,6 +18,8 @@ class ScrapeTicketActivity : BaseActivity() {
         binding.scrapeView.initScrapeView(
             backgroundId = R.drawable.ic_background,
             foregroundId = R.drawable.ic_foreground,
+            content = "9,999",
+            subContent = "Entries",
             sound = R.raw.scratcheffect,
             strokeSize = 50f,
             listener = object : ScrapeTicketView.ScrapeViewListener {

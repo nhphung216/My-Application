@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import com.example.myapplication.R
 
 class ScrapeTicketView : View {
 
@@ -29,9 +31,45 @@ class ScrapeTicketView : View {
 
     private var mediaPlayer: MediaPlayer? = null
 
+    private fun mergeContent(bitmap: Bitmap, content: String, subContent: String): Bitmap {
+        val contentPaint1 = Paint()
+        contentPaint1.color = Color.WHITE
+        contentPaint1.textSize = 56f
+        contentPaint1.strokeWidth = 40f
+        contentPaint1.typeface = ResourcesCompat.getFont(context, R.font.inter_bold_700)
+
+        val contentPaint2 = Paint()
+        contentPaint2.color = Color.WHITE
+        contentPaint2.textSize = 32f
+        contentPaint2.strokeWidth = 40f
+        contentPaint2.typeface = ResourcesCompat.getFont(context, R.font.inter_medium_500)
+
+        val combined = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(combined)
+        canvas.drawBitmap(bitmap, Matrix(), null)
+        canvas.drawText(
+            content,
+            canvas.width / 4f, // top
+            canvas.height / 2.2f, // start
+            contentPaint1
+        )
+        canvas.drawText(
+            subContent,
+            canvas.width / 3f,
+            canvas.height / 1.56f,
+            contentPaint2
+        )
+
+        return Bitmap.createBitmap(
+            combined, 0, 0, bitmap.width, bitmap.height, Matrix(), true
+        )
+    }
+
     fun initScrapeView(
         backgroundId: Int,
         foregroundId: Int,
+        content: String = "",
+        subContent: String = "",
         sound: Int,
         strokeSize: Float = 30f,
         listener: ScrapeViewListener? = null
@@ -50,7 +88,7 @@ class ScrapeTicketView : View {
             strokeCap = Paint.Cap.ROUND
         }
 
-        bpBackground = BitmapFactory.decodeResource(resources, backgroundId)
+        bpBackground = mergeContent(BitmapFactory.decodeResource(resources, backgroundId), content, subContent)
         bpBackground?.let {
             bpForeground = Bitmap.createBitmap(it.width, it.height, Bitmap.Config.ARGB_8888)
             bpForeground?.let { bpForeground ->
