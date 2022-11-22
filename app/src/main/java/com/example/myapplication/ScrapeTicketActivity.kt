@@ -2,7 +2,7 @@ package com.example.myapplication
 
 import android.os.Bundle
 import com.example.myapplication.databinding.ActivityScrapeTicketBinding
-import com.example.myapplication.draw.ScrapeTicketView
+import com.example.myapplication.scrape.ScrapeTicketView
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
@@ -16,7 +16,10 @@ class ScrapeTicketActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.scrapeView.initScrapeView(
-            R.drawable.ic_background, R.drawable.ic_foreground, R.raw.scratcheffect
+            backgroundId = R.drawable.ic_background,
+            foregroundId = R.drawable.ic_foreground,
+            sound = R.raw.scratcheffect,
+            strokeSize = 50f
         )
         binding.scrapeView.listener = object : ScrapeTicketView.ScrapeViewListener {
             override fun onPercentScratchOut(percent: Double) {

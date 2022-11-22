@@ -1,4 +1,4 @@
-package com.example.myapplication.draw
+package com.example.myapplication.scrape
 
 import android.content.Context
 import android.graphics.*
@@ -29,27 +29,32 @@ class ScrapeTicketView : View {
 
     private var mediaPlayer: MediaPlayer? = null
 
-    fun initScrapeView(resIdBackground: Int, resIdForeground: Int, scratchEffect: Int) {
-        mediaPlayer = MediaPlayer.create(context, scratchEffect)
+    fun initScrapeView(
+        backgroundId: Int,
+        foregroundId: Int,
+        sound: Int,
+        strokeSize: Float = 30f
+    ) {
+        mediaPlayer = MediaPlayer.create(context, sound)
 
         path = Path()
         pathPaint = Paint()
         pathPaint?.apply {
             alpha = 0
             style = Paint.Style.STROKE
-            strokeWidth = 30f
+            strokeWidth = strokeSize
             xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
         }
 
-        bpBackground = BitmapFactory.decodeResource(resources, resIdBackground)
+        bpBackground = BitmapFactory.decodeResource(resources, backgroundId)
         bpForeground = Bitmap.createBitmap(
             bpBackground!!.width, bpBackground!!.height, Bitmap.Config.ARGB_8888
         )
         mCanvas = Canvas(bpForeground!!)
 
-        val foreground = BitmapFactory.decodeResource(resources, resIdForeground)
+        val foreground = BitmapFactory.decodeResource(resources, foregroundId)
         mCanvas?.drawBitmap(foreground, Matrix(), null)
     }
 
@@ -99,17 +104,21 @@ class ScrapeTicketView : View {
 
     private fun computeScratchOutAreaSize(): Double {
         if (bpForeground == null) return 0.0
-        val pixels = IntArray(bpForeground!!.width * bpForeground!!.height)
-        val width = bpForeground!!.width
-        val height = bpForeground!!.height
-        bpForeground!!.getPixels(pixels, 0, width, 0, 0, width, height)
-        val sum = pixels.size
-        var num = 0
-        for (pixel: Int in pixels) {
-            if (pixel == 0) {
-                num++
+        bpForeground?.let { foreground ->
+            val pixels = IntArray(foreground.width * foreground.height)
+            val width = foreground.width
+            val height = foreground.height
+            foreground.getPixels(pixels, 0, width, 0, 0, width, height)
+            val sum = pixels.size
+            var num = 0
+            for (pixel: Int in pixels) {
+                if (pixel == 0) {
+                    num++
+                }
             }
+            return num * 100.0 / sum
         }
-        return num * 100.0 / sum
+
+        return 0.0
     }
 }

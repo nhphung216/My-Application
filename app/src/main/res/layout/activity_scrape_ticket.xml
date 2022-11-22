@@ -14,7 +14,7 @@
         android:src="@drawable/bg_main"
         tools:ignore="ContentDescription" />
 
-    <com.example.myapplication.draw.ScrapeTicketView
+    <com.example.myapplication.scrape.ScrapeTicketView
         android:id="@+id/scrape_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
