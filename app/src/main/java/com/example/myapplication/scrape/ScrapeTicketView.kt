@@ -51,13 +51,15 @@ class ScrapeTicketView : View {
         }
 
         bpBackground = BitmapFactory.decodeResource(resources, backgroundId)
-        bpForeground = Bitmap.createBitmap(
-            bpBackground!!.width, bpBackground!!.height, Bitmap.Config.ARGB_8888
-        )
-        mCanvas = Canvas(bpForeground!!)
+        bpBackground?.let {
+            bpForeground = Bitmap.createBitmap(it.width, it.height, Bitmap.Config.ARGB_8888)
+            bpForeground?.let { bpForeground ->
+                mCanvas = Canvas(bpForeground)
 
-        val foreground = BitmapFactory.decodeResource(resources, foregroundId)
-        mCanvas?.drawBitmap(foreground, Matrix(), null)
+                val foreground = BitmapFactory.decodeResource(resources, foregroundId)
+                mCanvas?.drawBitmap(foreground, Matrix(), null)
+            }
+        }
     }
 
     constructor(context: Context?) : super(context)
@@ -94,8 +96,10 @@ class ScrapeTicketView : View {
             }
         }
 
-        mCanvas?.drawPath(path!!, pathPaint!!)
+        path?.let { path -> pathPaint?.let { pathPaint -> mCanvas?.drawPath(path, pathPaint) } }
+
         invalidate()
+
         return true
     }
 
@@ -105,7 +109,6 @@ class ScrapeTicketView : View {
     }
 
     private fun computeScratchOutAreaSize(): Double {
-        if (bpForeground == null) return 0.0
         bpForeground?.let { foreground ->
             val pixels = IntArray(foreground.width * foreground.height)
             val width = foreground.width
