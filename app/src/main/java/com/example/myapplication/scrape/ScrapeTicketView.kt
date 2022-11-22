@@ -18,7 +18,7 @@ class ScrapeTicketView : View {
         fun onPercentScratchOut(percent: Double)
     }
 
-    var listener: ScrapeViewListener? = null
+    var scrapeViewListener: ScrapeViewListener? = null
 
     private var bpBackground: Bitmap? = null
     private var bpForeground: Bitmap? = null
@@ -33,8 +33,10 @@ class ScrapeTicketView : View {
         backgroundId: Int,
         foregroundId: Int,
         sound: Int,
-        strokeSize: Float = 30f
+        strokeSize: Float = 30f,
+        listener: ScrapeViewListener? = null
     ) {
+        scrapeViewListener = listener
         mediaPlayer = MediaPlayer.create(context, sound)
 
         path = Path()
@@ -83,7 +85,7 @@ class ScrapeTicketView : View {
 
                 val scratchPercent = computeScratchOutAreaSize()
                 Log.e(TAG, "scratchPercent: ${scratchPercent}%")
-                listener?.onPercentScratchOut(scratchPercent)
+                scrapeViewListener?.onPercentScratchOut(scratchPercent)
             }
             MotionEvent.ACTION_UP -> {
                 if (mediaPlayer?.isPlaying == true) {

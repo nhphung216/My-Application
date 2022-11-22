@@ -19,13 +19,12 @@ class ScrapeTicketActivity : BaseActivity() {
             backgroundId = R.drawable.ic_background,
             foregroundId = R.drawable.ic_foreground,
             sound = R.raw.scratcheffect,
-            strokeSize = 50f
-        )
-        binding.scrapeView.listener = object : ScrapeTicketView.ScrapeViewListener {
-            override fun onPercentScratchOut(percent: Double) {
-                val formatter: NumberFormat = DecimalFormat("#0.00")
-                binding.percent.text = "${formatter.format(percent)}%"
-            }
-        }
+            strokeSize = 50f,
+            listener = object : ScrapeTicketView.ScrapeViewListener {
+                override fun onPercentScratchOut(percent: Double) {
+                    val formatter: NumberFormat = DecimalFormat("#0.00")
+                    binding.percent.text = "${formatter.format(percent)}%"
+                }
+            })
     }
 }
