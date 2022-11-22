@@ -18,4 +18,5 @@
     <color name="color_blue">#00B0FF</color>
     <color name="color_pink">#D500F9</color>
     <color name="color_brown">#8D6E63</color>
+    <color name="foreground">#D1A745</color>
 </resources>

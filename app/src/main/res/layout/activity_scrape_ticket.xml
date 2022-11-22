@@ -3,12 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ScrapeTicketActivity">
 
-    <com.example.myapplication.draw.ScrapeView
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_gravity="center" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_main"
+        tools:ignore="ContentDescription" />
+
+    <com.example.myapplication.draw.ScrapeTicketView
+        android:id="@+id/scrape_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="56dp" />
+
+    <TextView
+        android:id="@+id/percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="46dp"
+        android:text="0.0%"
+        android:textColor="@android:color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
 </FrameLayout>
